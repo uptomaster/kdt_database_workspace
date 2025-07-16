@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+	<item id="NodeList/DBNProjectDatabases/DBNBookmarkFolder/DBNDashboardFolder/DBNDiagramFolder/DBNResource">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Path" visible="true" order="1" width="172"/>
+		<column name="Size" visible="true" order="2" width="100"/>
+		<column name="Last modified" visible="true" order="3" width="100"/>
+	</item>
+	<item id="NodeList/DataSourceDescriptor">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Description" visible="true" order="1" width="100"/>
+		<column name="Origin" visible="true" order="2" width="100"/>
+		<column name="Driver Type" visible="true" order="3" width="100"/>
+	</item>
+	<item id="NodeList/OracleSchema">
+		<column name="Name" visible="true" order="0" width="130"/>
+	</item>
+	<item id="NodeList/OracleTable">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Partitioned" visible="true" order="1" width="100"/>
+		<column name="Created" visible="true" order="2" width="100"/>
+		<column name="Last Changed" visible="true" order="3" width="100"/>
+		<column name="Partition keys" visible="true" order="9" width="100"/>
+		<column name="Subpartition keys" visible="true" order="10" width="107"/>
+		<column name="Stat Row Count" visible="true" order="4" width="100"/>
+		<column name="Tablespace" visible="true" order="5" width="100"/>
+		<column name="Comment" visible="true" order="6" width="100"/>
+		<column name="Partition by interval kind" visible="true" order="7" width="146"/>
+		<column name="Partition interval" visible="true" order="8" width="102"/>
+	</item>
+	<item id="NodeList/OracleTableColumn">
+		<column name="Column Name" visible="true" order="0" width="144"/>
+		<column name="#" visible="true" order="1" width="100"/>
+		<column name="Type" visible="true" order="2" width="100"/>
+		<column name="Type Mod" visible="true" order="3" width="100"/>
+		<column name="Not Null" visible="true" order="4" width="100"/>
+		<column name="Default" visible="true" order="5" width="100"/>
+		<column name="Comment" visible="true" order="6" width="100"/>
+	</item>
+	<item id="NodeList/OracleTableConstraint">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Owner" visible="true" order="1" width="100"/>
+		<column name="Type" visible="true" order="2" width="100"/>
+		<column name="Condition" visible="true" order="3" width="100"/>
+		<column name="Status" visible="true" order="4" width="100"/>
+	</item>
+	<item id="NodeList/OracleTableForeignKey">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Owner" visible="true" order="1" width="100"/>
+		<column name="Ref Table" visible="true" order="2" width="100"/>
+		<column name="Type" visible="true" order="3" width="100"/>
+		<column name="Ref Object" visible="true" order="4" width="100"/>
+		<column name="On Delete" visible="true" order="5" width="100"/>
+		<column name="Status" visible="true" order="6" width="100"/>
+	</item>
+	<item id="NodeList/OracleTableForeignKey/OracleTableForeignKeyColumn">
+		<column name="Name" visible="true" order="0" width="160"/>
+		<column name="Column" visible="true" order="1" width="126"/>
+		<column name="Owner" visible="true" order="2" width="100"/>
+		<column name="Ref Table" visible="true" order="3" width="100"/>
+		<column name="Type" visible="true" order="4" width="100"/>
+		<column name="Ref Object" visible="true" order="5" width="100"/>
+		<column name="On Delete" visible="true" order="6" width="100"/>
+		<column name="Status" visible="true" order="7" width="100"/>
+	</item>
+	<item id="NodeList/OracleTableIndex">
+		<column name="Index Name" visible="true" order="0" width="100"/>
+		<column name="Column" visible="true" order="1" width="100"/>
+		<column name="Table" visible="true" order="2" width="100"/>
+		<column name="Index Type" visible="true" order="3" width="100"/>
+		<column name="Unique" visible="true" order="4" width="100"/>
+		<column name="Tablespace" visible="true" order="5" width="100"/>
+	</item>
+	<item id="NodeList/OracleTableTrigger">
+		<column name="Name" visible="true" order="0" width="100"/>
+		<column name="Table" visible="true" order="1" width="100"/>
+		<column name="Object Type" visible="true" order="2" width="100"/>
+		<column name="Trigger Type" visible="true" order="3" width="100"/>
+		<column name="Event" visible="true" order="4" width="100"/>
+		<column name="Column" visible="true" order="5" width="100"/>
+		<column name="Status" visible="true" order="6" width="100"/>
+		<column name="Action Type" visible="true" order="7" width="100"/>
+	</item>
+	<item id="Suggestion/NodeList/OracleTableColumn">
+		<column name="Column Name" visible="true" order="0" width="139"/>
+		<column name="#" visible="true" order="1" width="27"/>
+		<column name="Type" visible="true" order="2" width="94"/>
+		<column name="Type Mod" visible="false" order="3" width="100"/>
+		<column name="Not Null" visible="true" order="3" width="60"/>
+		<column name="Default" visible="true" order="4" width="53"/>
+		<column name="Comment" visible="true" order="5" width="68"/>
+	</item>
+	<item id="scriptSelectorViewer">
+		<column name="Script" visible="true" order="0" width="146"/>
+		<column name="Time" visible="true" order="1" width="194"/>
+		<column name="Info" visible="true" order="2" width="79"/>
+		<column name="Folder" visible="true" order="3" width="91"/>
+	</item>
+</items>

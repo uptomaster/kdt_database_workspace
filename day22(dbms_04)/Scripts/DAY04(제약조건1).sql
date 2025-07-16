@@ -1,0 +1,111 @@
+-- 테이블 생성
+-- 학생테이블 삭제 후 다시 생성
+/*
+학생 번호		STU_NUMBER	PK
+학생 아이디		STU_ID		UK
+학생이름		STU_NAME
+전공			STU_MAJOR
+성별			STU_GENDER -- 'M'또는 'W'한 글자(고정길이 char 자료형 char(1) 이용)
+*/
+
+DROP TABLE TBL_SCHOOL;
+
+CREATE TABLE TBL_SCHOOL(
+--   SCHOOL_NUMBER NUMBER CONSTRAINT PK_SCHOOL PRIMARY KEY, 가능하나 아래쪽에 작성한다
+   SCHOOL_NUMBER NUMBER,
+   SCHOOL_NAME VARCHAR2(100),
+   CONSTRAINT PK_SCHOOL PRIMARY KEY(SCHOOL_NUMBER)
+);
+
+SELECT * FROM TBL_SCHOOL;
+
+DROP TABLE TBL_STUDENT;
+
+CREATE TABLE TBL_STUDENT
+(	STU_NUMBER NUMBER,
+	STU_ID VARCHAR2(100),
+	STU_NAME VARCHAR2(100),
+	STU_MAJOR VARCHAR2(100),
+	STU_GENDER CHAR(1) DEFAULT 'M' NOT NULL CONSTRAINT CHECK(STU_GENDER = 'M' OR STU_GENDER = 'W'),
+	-- DEFAULT 'M'은 데이터가 들어오지 않으면 무조건 'M'이 기본값으로 들어가게 해준다.
+	-- 디폴트 값을 'M'으로 설정했으니까 강제로 NULL 값이 들어오는 것을 막아야해서 NOT NULL 을 넣는다.
+	-- 이 컬럼에는 M 또는 W만 들어오게 하는 CHECK제약조건까지 설정하였다.(들어오려는 값이 M 또는 W인지 검사하는것임.)
+	CONSTRAINT PK_STU_NUMBER PRIMARY KEY(STU_NUMBER), -- PK 제약조건
+	CONSTRAINT UK_STU_ID UNIQUE(STU_ID) -- UK 제약조건
+);
+
+ALTER TABLE TBL_STUDENT
+--ADD (SCHOOL_NUMBER NUMBER);
+
+
+-- FK 제약조건 추가
+ADD CONSTRAINT FK_SCHOOL_NUMBER FOREIGN KEY(SCHOOL_NUMBER) REFERENCES TBL_SCHOOL(SCHOOL_NUMBER);
+
+
+INSERT INTO TBL_SCHOOL
+--VALUES(1, '코리아고등학교');
+--VALUES(2, '코리아it고등학교');
+--VALUES(3, '한국고등학교');
+--VALUES(1, '한국it고등학교'); -- SCHOOL_NUMBER는 PK로 설정된 컬럼이기 때문에 중복값 불가
+--VALUES(NULL, NULL); -- SCHOOL_NUMBER는 PK로 설정된 컬럼이므로 NULL 불가
+--VALUES(4, NULL); -- SCHOOL_NUMBER는 PK로 설정된 컬럼이므로 NULL 불가
+
+
+
+INSERT INTO TBL_STUDENT
+VALUES(1, 'GU', '짱구', '컴퓨터공학과', 'A', 1);
+
+INSERT INTO TBL_STUDENT (STU_NUMBER, STU_ID, STU_NAME, STU_MAJOR, SCHOOL_NUMBER)
+VALUES(2, 'SU', '철수', '컴퓨터공학과', 1);
+
+INSERT INTO tbl_student
+VALUES(3, 'yuri', '유리', '컴퓨터공학과', 'W', 3);
+
+-- 테이블 조회
+SELECT * FROM TBL_SCHOOL;
+SELECT * FROM TBL_STUDENT;
+
+-- 1. 짱구와 철수의 성별을 M으로 변경
+ UPDATE tbl_student
+ SET STU_GENDER = 'M'
+ WHERE STU_NAME IN('짱구', '철수');
+
+
+-- 2. 유리의 전공을 데이터사이언스과로 변경
+UPDATE TBL_STUDENT
+SET STU_MAJOR = '데이터사이언스과'
+WHERE STU_NAME = '유리';
+
+SELECT * FROM TBL_STUDENT;
+
+-- STU_GENDER에 CHECK 제약조건 추가('M'또는 'W'만 허용)
+ALTER TABLE TBL_STUDENT
+ADD CONSTRAINT CHK_GENDER CHECK(STU_GENDER IN ('M', 'W'));
+
+INSERT INTO TBL_STUDENT
+--VALUES(4, 'KKK', 'KK', '정보보호학과', NULL, NULL);
+
+SELECT * FROM TBL_STUDENT
+
+-- 조합키 : 두 개 이상의 컬럼을 합쳐서 고유값을 만드는 것을 의미 (EX : 빨간 장미꽃)
+-- 단일 컬럼으로 고유성이 보장되지 않을 때 사용
+CREATE TABLE TBL_FLOWER
+(
+	FLOWER_COLOR VARCHAR2(100),
+	FLOWER_NAME VARCHAR2(100),
+	CONSTRAINT PK_FLOWER PRIMARY KEY(FLOWER_NAME, FLOWER_COLOR)
+);
+
+SELECT * FROM TBL_FLOWER;
+
+INSERT INTO TBL_FLOWER
+--VALUES('장미꽃', '빨강');
+--VALUES('장미꽃', '분홍');
+--VALUES('튤립', '빨강');
+--VALUES('튤립', '분홍');
+
+
+
+
+
+
