@@ -82,18 +82,22 @@
 		<column name="Action Type" visible="true" order="7" width="100"/>
 	</item>
 	<item id="Suggestion/NodeList/OracleTableColumn">
-		<column name="Column Name" visible="true" order="0" width="139"/>
-		<column name="#" visible="true" order="1" width="27"/>
-		<column name="Type" visible="true" order="2" width="94"/>
+		<column name="Column Name" visible="true" order="0" width="122"/>
+		<column name="#" visible="true" order="1" width="25"/>
+		<column name="Type" visible="true" order="2" width="60"/>
 		<column name="Type Mod" visible="false" order="3" width="100"/>
-		<column name="Not Null" visible="true" order="3" width="60"/>
-		<column name="Default" visible="true" order="4" width="53"/>
-		<column name="Comment" visible="true" order="5" width="68"/>
+		<column name="Not Null" visible="true" order="3" width="58"/>
+		<column name="Default" visible="true" order="4" width="51"/>
+		<column name="Comment" visible="true" order="5" width="66"/>
 	</item>
 	<item id="scriptSelectorViewer">
 		<column name="Script" visible="true" order="0" width="146"/>
 		<column name="Time" visible="true" order="1" width="194"/>
 		<column name="Info" visible="true" order="2" width="79"/>
 		<column name="Folder" visible="true" order="3" width="91"/>
+	</item>
+	<item id="sqlFilterValueEditPopup">
+		<column name="Value" visible="true" order="0" width="74"/>
+		<column name="Count" visible="true" order="1" width="47"/>
 	</item>
 </items>

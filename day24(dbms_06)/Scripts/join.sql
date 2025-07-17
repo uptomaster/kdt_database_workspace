@@ -1,0 +1,180 @@
+-- 4번 : 조인
+
+-- 1. 내부조인
+
+CREATE TABLE TBL_BOOKS(
+	BOOK_ID NUMBER,
+	BOOK_TITLE VARCHAR2(100),
+	BOOK_AUTHOR VARCHAR2(100),
+	CONSTRAINT BOOK_PK PRIMARY KEY(BOOK_ID)
+);
+
+SELECT * FROM TBL_BOOKS;
+
+CREATE TABLE TBL_BOOKPRICE(
+	BP_ID NUMBER,
+	BP_PRICE NUMBER,
+	CONSTRAINT BP_PK PRIMARY KEY(BP_ID)
+);
+
+SELECT * FROM TBL_BOOKPRICE;
+
+
+-- 책 추가
+INSERT INTO TBL_BOOKS
+--VALUES(1, '위대한 개츠비', 'F.스콧 피츠제럴드');
+--VALUES(2, '해리포터와 마법사의 돌', 'J.K. 롤링');
+--VALUES(3, '1984', '조지오웰');
+--VALUES(4, '오만과 편견', '제인 오스틴');
+--VALUES(5, '데미안', '헤르만 헤세');
+--VALUES(6, '모모', '미하엘 엔더');
+--VALUES(7, 'DBMS완전정복', 'DBMS');
+
+-- 책 가격 값 추가
+INSERT INTO TBL_BOOKPRICE
+--VALUES(1, 15000);
+--VALUES(2, 18000);
+--VALUES(3, 14000);
+--VALUES(4, 17000);
+--VALUES(5, 18000);
+--VALUES(6, 20000);
+--VALUES(7, 20000);
+
+SELECT * FROM TBL_BOOKS;
+SELECT * FROM TBL_BOOKPRICE;
+
+-- 2개의 테이블을 내부조인(등가조인)
+SELECT BOOK_ID, BOOK_TITLE, BOOK_AUTHOR, BP_ID, BP_PRICE
+FROM TBL_BOOKS A INNER JOIN TBL_BOOKPRICE B
+ON A.BOOK_ID = B.BP_ID;
+
+DROP TABLE TBL_BOOKS;
+DROP TABLE TBL_MEMBER;
+DROP TABLE TBL_BOOKPRICE;
+DROP TABLE TBL_RENTAL;
+-- 도서관
+-- 도서테이블, 회원테이블, 렌탈테이블
+CREATE TABLE TBL_BOOKS(
+	BOOK_ID NUMBER,
+	BOOK_TITLE VARCHAR2(100),
+	BOOK_AUTHOR VARCHAR2(100),
+	CONSTRAINT PK_BOOKS PRIMARY KEY(BOOK_ID)
+);
+
+CREATE TABLE TBL_MEMBER(
+	MEM_ID NUMBER,
+	MEM_NAME VARCHAR2(100),
+	MEM_PHONE VARCHAR2(100),
+	MEM_EMAIL VARCHAR2(100),
+	CONSTRAINT PK_MEMBER PRIMARY KEY(MEM_ID)
+);
+
+-- 책과 회원 사이의 관계가 다대다 관계이므로 중간테이블 생성
+CREATE TABLE TBL_RENTAL(
+	REN_ID NUMBER,
+	MEM_ID NUMBER,
+	BOOK_ID NUMBER,
+	REN_RENTALDATE DATE,
+	REN_RETURNDATE DATE,
+	CONSTRAINT PK_RENTAL PRIMARY KEY(REN_ID),
+	-- FK 제한조건 설정
+	CONSTRAINT FK_RENTAL_BOOK FOREIGN KEY(BOOK_ID) REFERENCES TBL_BOOKS(BOOK_ID),
+	CONSTRAINT FK_RENTAL_MEM FOREIGN KEY(MEM_ID) REFERENCES TBL_MEMBER(MEM_ID)
+	);
+
+SELECT * FROM TBL_RENTAL;
+SELECT * FROM TBL_BOOKS;
+SELECT * FROM TBL_MEMBER;
+
+---------------------------------책 추가---------------------------------------
+INSERT INTO TBL_BOOKS 
+VALUES(1, '위대한 개츠비', 'F.스콧 피츠제럴드');
+
+INSERT INTO TBL_BOOKS 
+VALUES(2, '해리포터와 마법사의 돌', 'J.K. 롤링');
+
+INSERT INTO TBL_BOOKS 
+VALUES(3, '1984', '조지오웰');
+
+INSERT INTO TBL_BOOKS 
+VALUES(4, '오만과 편견', '제인 오스틴');
+
+INSERT INTO TBL_BOOKS 
+VALUES(5, '데미안', '헤르만 헤세');
+
+------------------------------------회원 추가-----------------------------------------
+INSERT INTO TBL_MEMBER
+VALUES
+--(1, '짱구', '123-456-7890', 'aaa@koreait.com');
+--(2, '유리', '987-654-3210', 'bbb@koreait.com');
+--(3, '철수', '555-123-4567', 'ccc@koreait.com');
+--(4, '훈이', '777-888-9999', 'ddd@koreait.com');
+--(5, '맹구', '555-777-3333', 'eee@koreait.com');
+-------------------------------------빌리기----------------------------------------
+
+INSERT INTO TBL_RENTAL
+VALUES
+--(1, 1, 3, TO_DATE('2023-12-11', 'YYYY-MM-DD'), TO_DATE('2023-12-18', 'YYYY-MM-DD'));
+--(2, 2, 1, TO_DATE('2023-12-11', 'YYYY-MM-DD'), TO_DATE('2023-12-18', 'YYYY-MM-DD'));
+--(3, 3, 2, TO_DATE('2023-12-13', 'YYYY-MM-DD'), TO_DATE('2023-12-20', 'YYYY-MM-DD'));
+--(4, 4, 4, TO_DATE('2023-12-20', 'YYYY-MM-DD'), TO_DATE('2023-12-27', 'YYYY-MM-DD'));
+(5, 5, 5, TO_DATE('2023-12-22', 'YYYY-MM-DD'), TO_DATE('2023-12-29', 'YYYY-MM-DD'));
+
+SELECT * FROM TBL_RENTAL;
+SELECT * FROM TBL_BOOKS;
+SELECT * FROM TBL_MEMBER;
+
+-- 등가 조인 : 두개 이상의 테이블을 조인할 때 특정 컬럼들의 값이 서로 같은 행만 결과로 반환
+-- 대여 정보와 책의 저자를 조회하는 등가조인
+
+-- 1) 행의 개수를 먼저 파악하여 선행 테이블, 후행 테이블 결정
+-- 지금은 세 테이블 모두 5개의 행이므로 상관없지만 보통 행이 다르다.
+-- 선행 테이블은 행이 적은 테이블이 들어가는게 효율적이다.
+SELECT COUNT(*) FROM TBL_BOOKS;
+
+SELECT COUNT(*) FROM TBL_RENTAL;
+
+-- 2) JOIN을 사용하여 두개의 테이블 조회
+SELECT TR.REN_RENTALDATE, TR.REN_RETURNDATE, TB.BOOK_AUTHOR
+FROM TBL_BOOKS TB INNER JOIN TBL_RENTAL TR
+-- 3) 두개의 테이블에서 일치하는 컬럼을 확인 후 ON 절에 추가
+ON TB.BOOK_ID = TR.BOOK_ID;
+
+
+-- 회원의 이름과 대여한 책의 제목을 가져오는 등가조인
+-- 선행테이블과 후행테이블을 확인하기.
+SELECT COUNT(*) FROM TBL_MEMBER; -- TM
+SELECT COUNT(*) FROM TBL_RENTAL; -- TR
+SELECT * FROM TBL_MEMBER;
+SELECT * FROM TBL_BOOKS;
+SELECT * FROM TBL_RENTAL;
+
+--- 정확히 같은 값을 가진 데이터로만 조회 1은 1 2는 2 ... 이런식으로 숫자만 맞춤.
+--- 실제로는 1번사람은 3번책을 빌려갔었다.
+--- 따라서 JOIN을 두번 사용해야한다.
+SELECT TB.BOOK_TITLE, TM.MEM_NAME
+FROM TBL_BOOKS TB JOIN TBL_MEMBER TM
+ON TB.BOOK_ID = TM.MEM_ID;
+
+-- JOIN 두번 사용
+SELECT TB.BOOK_ID, TB.BOOK_TITLE, TM.MEM_ID, TM.MEM_NAME
+FROM TBL_RENTAL TR 
+JOIN TBL_MEMBER TM ON TR.MEM_ID = TM.MEM_ID
+JOIN TBL_BOOKS TB ON TB.BOOK_ID = TR.BOOK_ID;
+-- 책대여일과 반납일 사이에 특정 날짜가 포함되어있는지 조회(2023-12-25)
+-- ON절에 등호(=)가 존재하면 등가 조인이다.
+SELECT TM.MEM_NAME, TB.BOOK_TITLE, TR.REN_RENTALDATE , TR.REN_RETURNDATE
+FROM TBL_RENTAL TR JOIN TBL_BOOKS TB ON TR.BOOK_ID = TB.BOOK_ID
+JOIN TBL_MEMBER TM ON TM.MEM_ID = TR.MEM_ID
+WHERE TO_DATE('2023-12-25', 'YYYY-MM-DD') BETWEEN TR.REN_RENTALDATE AND TR.REN_RETURNDATE;
+
+
+-- 비등가조인 : 두 테이블간의 조건이 같음이 아닌 범위 조건 등을 사용하는 방식.
+-- ON절에 등호(=)가 존재하면 등가 조인이다. 따라서 비등가조인은 등호가 존재하지 않아야한다.
+-- 책의 이름과 빌려간 날짜가 2023-12-20일부터 2023-12-23 사이에 있는지 조회
+RETURN TB.BOOK_TITLE, TR.REN_RENTALDATE
+FROM TBL_RENTAL TR JOIN TBL_BOOKS TB 
+ON TR.REN_RENTALDATE BETWEEN  
+
+
+

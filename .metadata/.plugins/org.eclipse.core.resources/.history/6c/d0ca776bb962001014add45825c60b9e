@@ -88,7 +88,7 @@ DROP TABLE TBL_INFO;
 
 
 CREATE TABLE TBL_STU(
-	STU_ID VARCHAR2(100),
+	STU_ID NUMBER,
 	STU_NAME VARCHAR2(100),
 	STU_MAJOR VARCHAR2(100),
 	--PK 제한조건 설정
@@ -103,7 +103,7 @@ CREATE TABLE TBL_SUBJECT(
 );
 
 CREATE TABLE TBL_INFO(
-	STU_ID VARCHAR2(100),
+	STU_ID NUMBER,
 	SUBJECT_ID NUMBER,
 	-- PK 제한조건 설정
 	CONSTRAINT PK_INFO PRIMARY KEY(STU_ID, SUBJECT_ID),
@@ -119,19 +119,19 @@ SELECT * FROM TBL_SUBJECT;
 
 -- 학생 테이블에 데이터 추가
 INSERT INTO TBL_STU 
-VALUES('001', '이남혁', '컴퓨터공학과');
+VALUES(001, '이남혁', '컴퓨터공학과');
 
 INSERT INTO TBL_STU 
-VALUES('002', '강버들', '컴퓨터공학과');
+VALUES(002, '강버들', '컴퓨터공학과');
 
 INSERT INTO TBL_STU 
-VALUES('003', '박건아', '조리학과');
+VALUES(003, '박건아', '조리학과');
 
 INSERT INTO TBL_STU 
-VALUES('004', '전보라', '보안학과');
+VALUES(004, '전보라', '보안학과');
 
 INSERT INTO TBL_STU 
-VALUES('005', '김기수', '경영학과');
+VALUES(005, '김기수', '경영학과');
 
 
 SELECT * FROM TBL_INFO;
@@ -156,17 +156,17 @@ VALUES(11, 'E1', '정보보안학');
 
 --수강신청테이블에 데이터 추가
 INSERT INTO TBL_INFO
-VALUES('001',1); -- 이남혁 데이터통계 수강신청
+VALUES(001,1); -- 이남혁 데이터통계 수강신청
 INSERT INTO TBL_INFO
-VALUES('001',11); -- 이남혁 정보보안학 수강신청
+VALUES(001,11); -- 이남혁 정보보안학 수강신청
 INSERT INTO TBL_INFO
-VALUES('002',1); -- 강버들 데이터통계 수강신청
+VALUES(002,1); -- 강버들 데이터통계 수강신청
 INSERT INTO TBL_INFO
-VALUES('003',2); -- 박건아 알고리즘 수강신청
+VALUES(003,2); -- 박건아 알고리즘 수강신청
 INSERT INTO TBL_INFO
-VALUES('004',7); -- 전보라 자바 수강신청
+VALUES(004,7); -- 전보라 자바 수강신청
 INSERT INTO TBL_INFO
-VALUES('004',11); -- 전보라 정보보안학 수강신청
+VALUES(004,11); -- 전보라 정보보안학 수강신청
 
 
 

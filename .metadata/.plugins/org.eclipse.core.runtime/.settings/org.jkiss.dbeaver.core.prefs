@@ -1,8 +1,8 @@
 dbeaver.workbenchVersion=25.1.2
 driver.selector.orderBy=score
 eclipse.preferences.version=1
-project.active=day23
+project.active=day24(dbms_06)
 resultset.presentation.active=spreadsheet
 sample.database.canceled=true
 tipOfTheDayInitializer.notFirstRun=true
-ui.auto.update.check.time=1752631590559
+ui.auto.update.check.time=1752710580702

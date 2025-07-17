@@ -1,0 +1,208 @@
+-- 2번 : 서브쿼리
+
+-- 1) 비연관 서브쿼리
+-- 최대 급여를 받는 직원 조회
+--SELECT EMPLOYEE_ID, MAX(SALARY)
+--FROM EMPLOYEES -- 조회하려는 행의 개수가 달라서 오류 발생
+
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY
+FROM EMPLOYEES
+WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES);
+
+-- 2) 비연관 서브쿼리
+-- 각 직원의 급여가 부서별 평균 급여보다 높은 직원 조회
+--(1) 부서별 평균급여조회(12행)
+SELECT DEPARTMENT_ID, AVG(SALARY)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+
+--(2) 각 직원의 급여 조회(107행)
+SELECT EMPLOYEE_ID, SALARY, DEPARTMENT_ID
+FROM EMPLOYEES;
+
+--(3) 연관 서브쿼리문
+SELECT e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID
+FROM EMPLOYEES e
+WHERE SALARY > (SELECT AVG(SALARY)
+	FROM EMPLOYEES
+	WHERE e.DEPARTMENT_ID = DEPARTMENT_ID
+	GROUP BY DEPARTMENT_ID
+)
+ORDER BY e.DEPARTMENT_ID;
+
+
+-- 3) 단일 행 서브쿼리(서브쿼리의 결과가 한 개)
+-- 가장 오래된 입사일을 가진 사원의 직원번호, 이름, 입사일 조회하기.
+
+
+-- (1)가장 오래된 입사일 조회
+SELECT MIN(HIRE_DATE)
+FROM EMPLOYEES;
+
+SELECT EMPLOYEE_ID, FIRST_NAME
+FROM EMPLOYEES
+ORDER BY HIRE_DATE;
+
+-- (2) 서브쿼리
+SELECT EMPLOYEE_ID, FIRST_NAME, HIRE_DATE
+FROM EMPLOYEES
+WHERE HIRE_DATE = (SELECT MIN(HIRE_DATE) FROM EMPLOYEES); 
+
+
+-- 다중 행 서브쿼리(서브쿼리의 결과가 여러 행을 반환)
+-- 특정 부서에 속한 직원 조회
+-- 두개의 테이블에서는 공통 컬럼이 있어야 찾을 수 있다.(DEPARTMENT_NAME은 EMPLOYEES 테이블에 없다.)
+SELECT EMPLOYEE_ID, FIRST_NAME, DEPARTMENT_ID 부서
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID
+	FROM DEPARTMENTS
+	WHERE DEPARTMENT_ID = 60
+)
+
+-- 내부쿼리문 자체는 단일 행으로 나오지만
+SELECT DEPARTMENT_ID
+	FROM DEPARTMENTS
+	WHERE DEPARTMENT_ID = 60
+	
+-- 메인쿼리문에서 비교했을때 같은 녀석들을 조회할때 여러 행을 SELECT했으므로
+-- 다중행을 반환한다.
+
+-- 부서이름까지 같이 조회하고싶다면? 
+-- 두번의 서브쿼리를 사용하거나 JOIN으로 묶어줘야한다. 
+-- 부서이름은 다른 테이블에 존재하며, 두 컬럼의 행의 길이가 다르다.
+
+SELECT EMPLOYEE_ID, FIRST_NAME, DEPARTMENT_ID 부서, D.DEPARTMENT_NAME
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID IN (
+	SELECT DEPARTMENT_ID
+	FROM DEPARTMENTS
+	WHERE DEPARTMENT_ID = 60
+)
+
+SELECT EMPLOYEE_ID, FIRST_NAME, DEPARTMENT_ID
+FROM EMPLOYEES
+
+-- DEPARTMENT_ID는 두 테이블에 공통적으로 있음
+SELECT DEPARTMENT_ID, DEPARTMENT_NAME
+FROM DEPARTMENTS
+
+SELECT E.EMPLOYEE_ID, E.FIRST_NAME, E.DEPARTMENT_ID,
+	(SELECT D.DEPARTMENT_NAME
+	FROM DEPARTMENTS d 
+	WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID) 부서명 -- 하나의 컬럼으로 적용된다.
+FROM EMPLOYEES E
+WHERE E.DEPARTMENT_ID IN (SELECT DEPARTMENT_ID 
+	FROM DEPARTMENTS
+	WHERE DEPARTMENT_ID = 60
+);
+
+-- ORA-01427: single-row subquery returns more than one row
+-- 단일 행 서브쿼리가 여러 행을 반환했기 때문에 에러가 발생함
+-- SELECT 절 안에서 스칼라 서브쿼리를 사용하는 경우 해당 서브쿼리는 반드시 하나의 값(1행 1열)을 반환함.
+	
+
+-- 전체 평균 급여와 부서별 평균 급여 구하기
+SELECT AVG(SALARY)
+FROM EMPLOYEES;
+
+SELECT AVG(SALARY), DEPARTMENT_ID
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+
+-- 서브쿼리의 행의 개수는 항상 메인쿼리보다 적어야한다. ( 12개, 107개 )
+--SELECT AVG(SALARY), (SELECT * FROM EMPLOYEES)
+--FROM EMPLOYEES;
+
+-- 서브쿼리를 사용할때 전체를 조회하는경우 테이블의 별칭을 설정해서 조회해야한다.
+SELECT E.*, (SELECT AVG(SALARY) FROM EMPLOYEES) 직원평균급여
+FROM EMPLOYEES E;
+
+SELECT DEPARTMENT_ID 부서, AVG(SALARY) 부서별평균급여, (SELECT AVG(SALARY) FROM EMPLOYEES) 전체평균급여
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+-- SELECT 절 : 계산된 값 또는 추가 정보를 열로 표시
+-- 각 직원의 사원 번호, 이름, 급여와 해당부서의 급여 조회
+-- 1) 사원번호,이름,급여 조회 => 메인쿼리(107행)
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY
+FROM EMPLOYEES
+
+-- 2) 해당 부서의 평균 급여 조회 => 서브쿼리(12행)
+SELECT DEPARTMENT_ID 부서, ROUND(AVG(SALARY), 0) 부서평균급여
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+-- 각 직원의 사원번호, 이름, 급여, 해당 부서의 평균 급여 조회
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY 부서별평균급여, DEPARTMENT_ID, 
+	(SELECT AVG(SALARY)
+	FROM EMPLOYEES E2
+	WHERE E2.DEPARTMENT_ID = E1.DEPARTMENT_ID)전체평균급여
+FROM EMPLOYEES E1;
+
+-- 2. FROM 절 서브쿼리 : 데이터 소스 역할. 주로 집계데이터를 연결할 때 사용한다.
+-- 부서별 평균급여를 계산하고 평균급여보다 높은 직원 조회하기
+
+SELECT DEPARTMENT_ID 부서, ROUND(AVG(SALARY),0) 평균급여
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+ORDER BY DEPARTMENT_ID ASC;
+
+SELECT E.EMPLOYEE_ID, E.FIRST_NAME, E.SALARY, T.AVG_SALARY
+FROM EMPLOYEES E 
+	JOIN
+	(SELECT E2.DEPARTMENT_ID, AVG(SALARY) AVG_SALARY
+	FROM EMPLOYEES E2
+	GROUP BY DEPARTMENT_ID) T
+ON E.DEPARTMENT_ID = T.DEPARTMENT_ID
+WHERE SALARY > T.AVG_SALARY;
+
+-- 3. WHERE 절 : 필터 조건으로 사용할 데이터를 제한
+ -- 급여가 전체평균급여 이상인 직원 조회
+
+--(1) 전체 평균급여 구하기
+SELECT AVG(SALARY) 
+FROM EMPLOYEES;
+
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY
+FROM EMPLOYEES
+WHERE SALARY >= (SELECT AVG(SALARY) FROM EMPLOYEES)
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
