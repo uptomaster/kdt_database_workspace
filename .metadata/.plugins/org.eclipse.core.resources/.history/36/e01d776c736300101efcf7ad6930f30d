@@ -40,12 +40,6 @@ WHERE SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES);
 -- 연산자 : IN
 -- 서브쿼리 위치 : WHERE
 
--------------------------------------------------연습-------------------------------------
-SELECT FIRST_NAME, DEPARTMENT_ID, SALARY
-FROM EMPLOYEES
-WHERE DEPARTMENT_ID = 60;
--------------------------------------------------연습-------------------------------------
-
 -- 서브쿼리 : IT = DEPARTMENT_NAME인 직원 조회
 SELECT DEPARTMENT_ID, DEPARTMENT_NAME
 FROM DEPARTMENTS
@@ -189,9 +183,6 @@ WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID
    FROM DEPARTMENTS D
    WHERE D.LOCATION_ID = 1700
 );
-
-SELECT *
-FROM DEPARTMENTS
 
 SELECT EMPLOYEE_ID, SALARY
 FROM EMPLOYEES E

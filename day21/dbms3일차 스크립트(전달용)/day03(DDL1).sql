@@ -1,0 +1,45 @@
+--3번 : DDL 데이터 정의어
+-- 테이블 생성 CREATE TABLE 테이블명(컬럼명 자료형(용량));
+-- 테이블 삭제 DROP TABLE 테이블명;
+-- 테이블 수정 ALTER TABLE 테이블명
+	-- 테이블명 수정	RENAME TO 새로운테이블명;
+	-- 컬럼명 수정		RENAME COLUMN 기존 컬럼명 TO 새로운컬럼명;
+	-- 컬럼타입수정		MODIFY(기존컬럼명 자료형(용량));
+	-- 컬럼 추가		ADD(새로운컬럼명 자료형(용량));
+	-- 컬럼 삭제		DROP COLUMN 기존컬럼명;	
+	-- 제약조건 추가
+	-- ADD CONSTRAINT 제약조건이름 PRIMARY KEY(현재테이블의 컬럼명);
+	-- ADD CONSTRAINT 제약조건이름 FOREIGN KEY(현재테이블의 컬럼명) REFERENCES 상위테이블명(컬럼명);
+	-- 제약조건 삭제	DROP CONSTRAINT 제약조건이름;
+-- 테이블 내용 전체 삭제 TRUNCATE TABLE 테이블명;
+
+-- 테이블 생성
+CREATE TABLE TBL_USER(
+	USER_NAME VARCHAR2(100),
+	USER_AGE NUMBER
+);
+
+-- 테이블명 수정
+ALTER TABLE TBL_USER RENAME TO TBL_MY_USER;
+-- 컬럼명 수정
+ALTER TABLE TBL_MY_USER RENAME COLUMN USER_NAME TO USER_NICKNAME;
+-- 컬럼 추가
+ALTER TABLE TBL_MY_USER ADD(USER_GENDER CHAR(4));
+--컬럼 타입 수정
+ALTER TABLE TBL_MY_USER MODIFY(USER_NICKNAME VARCHAR2(25));
+ALTER TABLE TBL_MY_USER MODIFY(USER_AGE DATE);
+-- 컬럼 삭제
+ALTER TABLE TBL_MY_USER DROP COLUMN USER_GENDER;
+
+--DML
+INSERT INTO TBL_MY_USER(USER_AGE, USER_NICKNAME)
+VALUES(TO_DATE('2000-01-01', 'YYYY-MM-DD'), '짱구')
+
+INSERT INTO TBL_USER 
+VALUES('철수', NULL);
+
+SELECT * FROM TBL_USER;
+
+DROP TABLE TBL_MY_USER ;
+
+TRUNCATE TABLE TBL_USER;

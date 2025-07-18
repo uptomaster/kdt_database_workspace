@@ -110,9 +110,6 @@ VALUES
 --(3, '철수', '555-123-4567', 'ccc@koreait.com');
 --(4, '훈이', '777-888-9999', 'ddd@koreait.com');
 --(5, '맹구', '555-777-3333', 'eee@koreait.com');
-
-UPDATE TABLE TBL_MEMBER
-SET 
 -------------------------------------빌리기----------------------------------------
 
 INSERT INTO TBL_RENTAL
@@ -171,10 +168,10 @@ FROM TBL_RENTAL TR JOIN TBL_BOOKS TB ON TR.BOOK_ID = TB.BOOK_ID
 JOIN TBL_MEMBER TM ON TM.MEM_ID = TR.MEM_ID
 WHERE TO_DATE('2023-12-25', 'YYYY-MM-DD') BETWEEN TR.REN_RENTALDATE AND TR.REN_RETURNDATE;
 
+
 -- 비등가조인 : 두 테이블간의 조건이 같음이 아닌 범위 조건 등을 사용하는 방식.
 -- ON절에 등호(=)가 존재하면 등가 조인이다. 따라서 비등가조인은 등호가 존재하지 않아야한다.
 -- 책의 이름과 빌려간 날짜가 2023-12-20일부터 2023-12-23 사이에 있는지 조회
-
 RETURN TB.BOOK_TITLE, TR.REN_RENTALDATE
 FROM TBL_RENTAL TR JOIN TBL_BOOKS TB 
 ON TR.REN_RENTALDATE BETWEEN  
